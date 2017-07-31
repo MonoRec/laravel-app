@@ -1,6 +1,7 @@
 <?php
 //
 use App\Post;
+use App\User;
 ///*
 //|--------------------------------------------------------------------------
 //| Web Routes
@@ -35,7 +36,7 @@ use App\Post;
 //*/
 //
 //Route::get('/show', function() {
-//    $results = DB::select('select * from posts where id=?', [1]);
+//    $results = DB::select('select * from posts where id=?', [6]);
 //    return $results;
 //});
 //
@@ -98,7 +99,7 @@ use App\Post;
 Route::get('/create', function() {
 
     Post::create([
-        'title' => 'dsdasdasadasdsa',
+        'title' => 'dsdasdasadasdasdsa',
         'description' => 'dasd sad sa sa sa'
     ]);
 
@@ -108,7 +109,51 @@ Route::get('/update', function() {
 
     Post::where('id',3)->where('is_admin', 0)->update([
         'title'=>'xd',
-        'description'=>'yyyyyyy'
+        'description'=>'yyydsayyyy'
     ]);
 
+});
+
+Route::get('/delete', function() {
+    Post::destroy([10,5]);
+});
+
+Route::get('/softdelete', function() {
+   Post::find(10)->delete();
+});
+
+Route::get('/show', function() {
+    return Post::onlyTrashed()->get();
+});
+
+//delete all deleted items
+Route::get('/restore', function() {
+   return Post::withTrashed()->where('is_admin','0')->restore();
+
+});
+
+Route::get('/forcedelete', function() {
+   return Post::onlyTrashed()->where('is_admin', 0)->forceDelete();
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Relationship One to One
+|--------------------------------------------------------------------------
+*/
+Route::get('/user/{id}/post', function() {
+    $result = Post::find(1)->user;
+    return($result);
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Relationship One to One inverse
+|--------------------------------------------------------------------------
+*/
+Route::get('/user/{id}/post2', function() {
+    $result = Post::find(1)->user;
+    return($result);
 });
