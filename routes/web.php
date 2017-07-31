@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/post/{id}/{name}','Posts\PostController@index');
+Route::resource('/posts','Posts\PostController');
 
-Route::resource('Posts', 'Posts\PostController');
+Route::get('/contact', 'Posts\PostController@contact')->name('contact.show');
+
+Route::get('/post/{id}/{name}/{password}', 'Posts\PostController@show_post')->name('post.show');
