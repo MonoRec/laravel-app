@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/post/{id}/{name}','Posts\PostController@index');
+
+Route::resource('Posts', 'Posts\PostController');
