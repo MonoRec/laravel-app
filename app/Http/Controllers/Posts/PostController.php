@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Posts;
 
+use App\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -94,5 +95,12 @@ class PostController extends Controller
         return view('post', compact('id','name', 'password'));
 
     }
+
+    public function getAll() {
+       $posts = Post::orderBy('id','asc')->get();
+
+        return view('posts', compact('posts'));
+    }
+
 
 }
