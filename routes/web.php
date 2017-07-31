@@ -15,8 +15,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('/posts','Posts\PostController');
+Route::resource('/posts', 'Posts\PostController');
 
 Route::get('/contact', 'Posts\PostController@contact')->name('contact.show');
 
 Route::get('/post/{id}/{name}/{password}', 'Posts\PostController@show_post')->name('post.show');
+
+
+
+Route::get('/insert', function() {
+
+    DB::insert('insert into posts (title,description) values(?,?)',['phdp','testesttetdsdsads']);
+
+});
