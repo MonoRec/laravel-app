@@ -2,6 +2,7 @@
 //
 use App\Post;
 use App\User;
+
 ///*
 //|--------------------------------------------------------------------------
 //| Web Routes
@@ -95,8 +96,7 @@ use App\User;
 //});
 
 
-
-Route::get('/create', function() {
+Route::get('/create', function () {
 
     Post::create([
         'title' => 'dsdasdasadasdasdsa',
@@ -105,35 +105,35 @@ Route::get('/create', function() {
 
 });
 
-Route::get('/update', function() {
+Route::get('/update', function () {
 
-    Post::where('id',3)->where('is_admin', 0)->update([
-        'title'=>'xd',
-        'description'=>'yyydsayyyy'
+    Post::where('id', 3)->where('is_admin', 0)->update([
+        'title' => 'xd',
+        'description' => 'yyydsayyyy'
     ]);
 
 });
 
-Route::get('/delete', function() {
-    Post::destroy([10,5]);
+Route::get('/delete', function () {
+    Post::destroy([10, 5]);
 });
 
-Route::get('/softdelete', function() {
-   Post::find(10)->delete();
+Route::get('/softdelete', function () {
+    Post::find(10)->delete();
 });
 
-Route::get('/show', function() {
+Route::get('/show', function () {
     return Post::onlyTrashed()->get();
 });
 
 //delete all deleted items
-Route::get('/restore', function() {
-   return Post::withTrashed()->where('is_admin','0')->restore();
+Route::get('/restore', function () {
+    return Post::withTrashed()->where('is_admin', '0')->restore();
 
 });
 
-Route::get('/forcedelete', function() {
-   return Post::onlyTrashed()->where('is_admin', 0)->forceDelete();
+Route::get('/forcedelete', function () {
+    return Post::onlyTrashed()->where('is_admin', 0)->forceDelete();
 });
 
 
@@ -142,9 +142,9 @@ Route::get('/forcedelete', function() {
 | Relationship One to One
 |--------------------------------------------------------------------------
 */
-Route::get('/user/{id}/post', function() {
+Route::get('/user/{id}/post', function () {
     $result = Post::find(1)->user;
-    return($result);
+    return ($result);
 });
 
 
@@ -153,7 +153,43 @@ Route::get('/user/{id}/post', function() {
 | Relationship One to One inverse
 |--------------------------------------------------------------------------
 */
-Route::get('/user/{id}/post2', function() {
+Route::get('/user/{id}/post2', function () {
     $result = Post::find(1)->user;
-    return($result);
+    return ($result);
 });
+
+
+/*
+|--------------------------------------------------------------------------
+| Relationship One to Many
+|--------------------------------------------------------------------------
+*/
+Route::get('/postsss', function () {
+    $user = User::find(1);
+    foreach ($user->posts as $post) {
+        echo $post->title . "- ";
+    }
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Relationship Many to Many
+|--------------------------------------------------------------------------
+*/
+Route::get('/user/{id}/role', function ($id) {
+    $user = User::find($id)->roles()->orderBy('id', 'desc')->get();
+
+    return $user;
+
+//    foreach($user->roles as $role) {
+//        echo $role->name." - ";
+//    }
+
+
+//    foreach($user->posts as $post) {
+//        echo $post->title;
+//    }
+
+});
+
